@@ -36,7 +36,21 @@ const write = async (data, tableName) => {
   return result;
 };
 
+const read = async (data, tableName) => {
+  const params = {
+    TableName: tableName,
+    Key: data,
+  };
+
+  const result = await documentClient.get(params).promise();
+  if (!result) {
+    throw new Error(`Unable to write to dynamo table ${tableName}`);
+  }
+  return result;
+};
+
 module.exports = {
   write,
+  read,
   writeBatch,
 };
